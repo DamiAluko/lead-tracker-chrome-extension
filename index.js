@@ -1,19 +1,21 @@
 const saveInput = document.getElementById("input-btn")
 const inputEl = document.getElementById("input-el")
-const listEl = document.getElementById("list-el")
+const ulistEl = document.getElementById("ul-el")
 
 let myLeads = []
 
 function saveLead(){
   myLeads.push(inputEl.value)
   inputEl.value = ""
-  console.log(myLeads)
-
-  const newListItem = document.createElement("li")
-  for(let i = 0; i < myLeads.length; i++ ){
-    newListItem.textContent = myLeads[i]
+  
+  let allListItems = ""
+  for(let i = 0; i < myLeads.length; i++){
+    allListItems += "<li>" + myLeads[i] + "</li>"
   }
-  listEl.appendChild(newListItem)
+  ulistEl.innerHTML = allListItems
+
+  console.log(myLeads)
+  console.log(allListItems)
 }
 
 saveInput.addEventListener('click', saveLead)
