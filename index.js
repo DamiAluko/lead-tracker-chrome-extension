@@ -2,10 +2,17 @@ const saveInput = document.getElementById("input-btn")
 const inputEl = document.getElementById("input-el")
 const ulistEl = document.getElementById("ul-el")
 
-let myLeads = []
+//localStorage.clear()
+
+// Load existing leads from storage on page load, or start with an empty array
+let myLeads = JSON.parse(localStorage.getItem("lead")) || []
+
+// Render whatever was loaded, so leads show up immediately on refresh
+renderLead()
 
 function saveLead(){
   myLeads.push(inputEl.value)
+  localStorage.setItem("lead", JSON.stringify(myLeads))
   renderLead()
   inputEl.value = ""
 }
@@ -13,20 +20,13 @@ function saveLead(){
 saveInput.addEventListener('click', saveLead)
 
 function renderLead(){
-  //let listItem = "<li><a href='" + inputEl.value + "' target='_blank' rel='noopener noreferrer'>" + inputEl.value + "</a>" + "</li>";
-  let listItem = `
+  ulistEl.innerHTML = ""  // clear before re-rendering to avoid duplicates
+  for(let i = 0; i < myLeads.length; i++){
+    ulistEl.innerHTML += `
     <li>
-      <a href= ${inputEl.value} 
-      target='_blank' 
-      rel='noopener noreferrer'>
-        ${inputEl.value} 
-      </a>  
+      <a href="${myLeads[i]}" target='_blank' rel='noopener noreferrer'>
+        ${myLeads[i]}
+      </a>
     </li>`;
-  
-  ulistEl.innerHTML += listItem
+  }
 }
-// NOTE: it's good practice to also include rel="noopener noreferrer". 
-// Without it, the newly opened page can access window.opener and potentially 
-// redirect your original tab (a known security/phishing risk), 
-// and in some older browsers it can also cause a minor performance hit since 
-// the new page shares the same process.
