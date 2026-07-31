@@ -1,6 +1,7 @@
 const saveInput = document.getElementById("input-btn")
 const inputEl = document.getElementById("input-el")
 const ulistEl = document.getElementById("ul-el")
+const deleteEl = document.getElementById("delete-btn")
 
 //localStorage.clear()
 
@@ -29,4 +30,12 @@ function renderLead(){
       </a>
     </li>`;
   }
+}
+
+deleteEl.addEventListener('click', deleteLeads)
+
+function deleteLeads(){
+  localStorage.clear()
+  myLeads = []
+  renderLead()
 }
