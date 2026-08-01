@@ -9,33 +9,33 @@ const deleteEl = document.getElementById("delete-btn")
 let myLeads = JSON.parse(localStorage.getItem("lead")) || []
 
 // Render whatever was loaded, so leads show up immediately on refresh
-renderLead()
+render(myLeads)
 
-function saveLead(){
-  myLeads.push(inputEl.value)
-  localStorage.setItem("lead", JSON.stringify(myLeads))
-  renderLead()
+function saveLead(array){
+  array.push(inputEl.value)
+  localStorage.setItem("lead", JSON.stringify(array))
+  render(array)
   inputEl.value = ""
 }
 
-saveInput.addEventListener('click', saveLead)
+saveInput.addEventListener('click', () => saveLead(myLeads))
 
-function renderLead(){
+function render(array){
   ulistEl.innerHTML = ""  // clear before re-rendering to avoid duplicates
-  for(let i = 0; i < myLeads.length; i++){
+  for(let i = 0; i < array.length; i++){
     ulistEl.innerHTML += `
     <li>
-      <a href="${myLeads[i]}" target='_blank' rel='noopener noreferrer'>
-        ${myLeads[i]}
+      <a href="${array[i]}" target='_blank' rel='noopener noreferrer'>
+        ${array[i]}
       </a>
     </li>`;
   }
 }
 
-deleteEl.addEventListener('click', deleteLeads)
+deleteEl.addEventListener('dblclick', () => deleteLeads(myLeads))
 
-function deleteLeads(){
+function deleteLeads(array){
   localStorage.clear()
-  myLeads = []
-  renderLead()
+  array = []
+  render(array)
 }
