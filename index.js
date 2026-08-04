@@ -2,6 +2,11 @@ const saveInput = document.getElementById("input-btn")
 const inputEl = document.getElementById("input-el")
 const ulistEl = document.getElementById("ul-el")
 const deleteEl = document.getElementById("delete-btn")
+const tabEl = document.getElementById("tab-btn")
+
+// let myTabs = [
+//   {url: "https://www.linkedin.com/in/oluwadamilola-aluko-724831334?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"}
+// ]
 
 //localStorage.clear()
 
@@ -19,6 +24,18 @@ function saveLead(array){
 }
 
 saveInput.addEventListener('click', () => saveLead(myLeads))
+deleteEl.addEventListener('dblclick', () => deleteLeads(myLeads, myTabs))
+
+tabEl.addEventListener('click', function(){
+  
+  chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
+    //tabs here is a keyword from chrome
+    myLeads.push(tabs[0].url)
+    localStorage.setItem("tab", JSON.stringify(myLeads))
+    render(myLeads)
+    inputEl.value = "" 
+  })
+})
 
 function render(array){
   ulistEl.innerHTML = ""  // clear before re-rendering to avoid duplicates
@@ -32,10 +49,11 @@ function render(array){
   }
 }
 
-deleteEl.addEventListener('dblclick', () => deleteLeads(myLeads))
 
-function deleteLeads(array){
+function deleteLeads(array1, array2){
   localStorage.clear()
-  array = []
-  render(array)
+  array1 = ['']
+  array2 = ['']
+  render(array1)
 }
+
